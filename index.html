@@ -235,15 +235,11 @@
 
         <div style="background:rgba(30,41,59,0.8); border:1px solid var(--border-gold); border-radius:var(--radius-md); padding:1rem; margin:0.75rem 0;">
           <h4 style="color:var(--text-gold); font-size:0.9rem; margin-bottom:0.5rem;">
-            Langkah 1: Inisialisasi Git & Push ke Repository Anda
+            Langkah 1: Hubungkan & Push ke Repository Anda di GitHub (@yauwes)
           </h4>
-          <p style="font-size:0.8rem; margin-bottom:0.5rem;">Buka terminal dan jalankan perintah berikut:</p>
+          <p style="font-size:0.8rem; margin-bottom:0.5rem;">Buka terminal dan jalankan perintah berikut (ganti <code>nama-repo</code> dengan nama repository yang Anda buat di GitHub):</p>
           <pre style="background:#090d16; padding:0.75rem; border-radius:6px; font-size:0.78rem; overflow-x:auto; color:#38bdf8; font-family:monospace;">
-git init
-git add .
-git commit -m "feat: inisialisasi website peta komoditas peradaban purba"
-git branch -M main
-git remote add origin https://github.com/USERNAME-ANDA/NAMA-REPO.git
+git remote add origin https://github.com/yauwes/nama-repo.git
 git push -u origin main</pre>
         </div>
 
@@ -252,7 +248,7 @@ git push -u origin main</pre>
             Langkah 2: Aktifkan GitHub Pages di Repository
           </h4>
           <ol style="padding-left:1.2rem; font-size:0.8rem; display:flex; flex-direction:column; gap:0.35rem;">
-            <li>Buka halaman repository Anda di <strong>GitHub.com</strong>.</li>
+            <li>Buka halaman repository Anda di <strong>https://github.com/yauwes/nama-repo</strong>.</li>
             <li>Klik menu <strong>Settings</strong> (ikon roda gigi) di tab atas.</li>
             <li>Di bilah sisi kiri, klik bagian <strong>Pages</strong>.</li>
             <li>Pada bagian <em>Build and deployment &gt; Source</em>, pilih <strong>Deploy from a branch</strong>.</li>
@@ -263,8 +259,8 @@ git push -u origin main</pre>
         <div class="fun-fact-card">
           <div class="fact-title"><span>✨</span> Selesai!</div>
           <p>
-            Dalam 1-2 menit, GitHub akan memberikan link website online publik Anda di: <br>
-            <code style="color:#fde68a;">https://USERNAME-ANDA.github.io/NAMA-REPO/</code>
+            Dalam 1-2 menit, website Anda akan aktif dan bisa diakses publik di: <br>
+            <code style="color:#fde68a;">https://yauwes.github.io/nama-repo/</code>
           </p>
         </div>
       </div>

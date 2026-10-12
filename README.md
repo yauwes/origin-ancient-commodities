@@ -61,38 +61,25 @@ Cukup buka berkas `index.html` langsung di browser favorit Anda:
 
 Website ini siap di-deploy langsung ke **GitHub Pages**:
 
-### Langkah 1: Inisialisasi Git & Push ke GitHub
+### Langkah 1: Hubungkan & Push ke Repository Anda di GitHub
 ```bash
-# Inisialisasi git di folder ini
-git init
-
-# Tambahkan seluruh file
-git add .
-
-# Buat commit pertama
-git commit -m "feat: inisialisasi website peta komoditas peradaban purba"
-
-# Ubah branch utama menjadi main
-git branch -M main
-
-# Hubungkan dengan repository GitHub Anda
-git remote add origin https://github.com/USERNAME-ANDA/NAMA-REPOSITORY.git
+# Hubungkan dengan repository GitHub Anda (ganti nama-repo sesuai yang Anda buat)
+git remote add origin https://github.com/yauwes/nama-repo.git
 
 # Push ke GitHub
 git push -u origin main
 ```
 
 ### Langkah 2: Aktifkan GitHub Pages
-1. Buka repository Anda di browser: `https://github.com/USERNAME-ANDA/NAMA-REPOSITORY`
+1. Buka repository Anda di browser: `https://github.com/yauwes/nama-repo`
 2. Klik tab **Settings** (di menu atas).
 3. Di panel menu kiri, klik **Pages**.
-4. Di bagian **Build and deployment > Source**, pilih **Deploy from a branch**.
-5. Di bagian **Branch**, pilih `main` dan direktori `/ (root)`.
-6. Klik tombol **Save**.
+4. Di bagian **Build and deployment > Source**, pilih **Deploy from a branch** (atau **GitHub Actions**).
+5. Jika memilih deploy from branch: pilih Branch `main` dan direktori `/ (root)`, lalu klik **Save**.
 
 Dalam 1–2 menit, website Anda akan aktif dan dapat diakses di:
 ```
-https://USERNAME-ANDA.github.io/NAMA-REPOSITORY/
+https://yauwes.github.io/nama-repo/
 ```
 
 ---
