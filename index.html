@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORIGIN: Peta Komoditas Alam Peradaban Purba (Pra-Supermarket)</title>
+  <meta name="description" content="Peta interaktif asal-usul komoditas pangan, rempah, buah, dan fauna purba dunia sebelum era supermarket modern dan Pertukaran Columbus 1492.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon Emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+</head>
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">🧭</div>
+      <div class="brand-text">
+        <h1>
+          ORIGIN 
+          <span class="brand-badge">Pra-1492 Masehi</span>
+        </h1>
+        <p>Peta Asal Komoditas Alam Bumi Sebelum Era Peradaban Supermarket</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Search Bar -->
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Cari cengkeh, kentang, kakao...">
+      </div>
+
+      <!-- Action Buttons -->
+      <button class="btn-nav btn-highlight" onclick="openModal('modalDishAnalyzer')">
+        <span>🍲</span> Paradoks Hidangan
+      </button>
+
+      <button class="btn-nav" id="btnStartTour">
+        <span>🧭</span> Tur Sejarah
+      </button>
+
+      <button class="btn-nav" id="btnSurprise" title="Jelajahi komoditas misterius secara acak">
+        <span>🎲</span> Acak
+      </button>
+
+      <button class="btn-nav" onclick="openModal('modalAbout')">
+        <span>ℹ️</span> Sejarah & Vavilov
+      </button>
+
+      <button class="btn-nav" onclick="openModal('modalDeploy')" style="border-color:var(--border-gold); color:var(--text-gold);">
+        <span>🚀</span> Deploy GitHub
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="app-container">
+    <!-- LEAFLET MAP CANVAS -->
+    <div id="map" class="map-theme-vintage"></div>
+
+    <!-- FLOATING MAP HUD & FILTERS (TOP-LEFT) -->
+    <div class="map-floating-panel">
+      <!-- Category Filter Pills -->
+      <div class="filter-pills-bar">
+        <button class="pill-btn active" data-category="all">Semua</button>
+        <button class="pill-btn" data-category="staple">🌾 Pangan Pokok</button>
+        <button class="pill-btn" data-category="spice">🌶️ Rempah</button>
+        <button class="pill-btn" data-category="produce">🍎 Buah & Sayur</button>
+        <button class="pill-btn" data-category="stimulant">☕ Stimulan</button>
+        <button class="pill-btn" data-category="fauna">🐑 Fauna Ternak</button>
+        <button class="pill-btn" data-category="material">🪵 Kayu & Material</button>
+      </div>
+
+      <!-- HUD Layer Controls Card -->
+      <div class="hud-layer-card">
+        <div class="hud-header">
+          <span><span>📜</span> Layer Sejarah Purba</span>
+          <span class="hud-counter" id="commodityCounter">Memuat...</span>
+        </div>
+        <div class="hud-toggles">
+          <label class="toggle-item">
+            <span>Pusat Asal Vavilov (9 Wilayah)</span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggleVavilov" checked>
+              <span class="slider"></span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <span>Jalur Perdagangan & Rute Columbus</span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggleRoutes" checked>
+              <span class="slider"></span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME CONTROLS (BOTTOM-LEFT) -->
+    <div class="map-theme-controls">
+      <button class="theme-btn active" data-theme="vintage">📜 Peta Kuno</button>
+      <button class="theme-btn" data-theme="dark">🌌 Obsidian</button>
+      <button class="theme-btn" data-theme="satellite">🌍 Satelit</button>
+    </div>
+
+    <!-- GUIDED STORY TOUR PANEL (BOTTOM-RIGHT) -->
+    <div class="tour-panel" id="tourPanel">
+      <div class="tour-header">
+        <span class="tour-step-badge" id="tourStepBadge">Langkah 1 dari 8</span>
+        <button class="modal-close-btn" id="btnTourClose" style="font-size:1rem;">✕</button>
+      </div>
+      <div class="tour-title" id="tourTitle">Judul Tur</div>
+      <p class="tour-text" id="tourText">Penjelasan langkah tur...</p>
+      <div class="tour-nav-btns">
+        <button class="tour-btn" id="btnTourPrev">← Sebelumnya</button>
+        <button class="tour-btn" id="btnTourNext" style="background:var(--accent-gold); color:#fff; border-color:var(--accent-gold);">Selanjutnya →</button>
+      </div>
+    </div>
+
+    <!-- SIDEBAR DOSSIER DRAWER (RIGHT) -->
+    <aside class="detail-drawer" id="detailDrawer">
+      <div class="drawer-header">
+        <div>
+          <div class="drawer-badge-group">
+            <span class="badge-cat" id="drawerCategoryBadge">Kategori</span>
+            <span class="badge-vavilov" id="drawerVavilovBadge">Pusat Vavilov</span>
+          </div>
+          <h2 class="drawer-title" id="drawerTitle">Nama Komoditas</h2>
+          <div class="drawer-latin" id="drawerLatin">Nama Latin Botani</div>
+        </div>
+        <button class="drawer-close-btn" id="drawerCloseBtn" title="Tutup dossier">✕</button>
+      </div>
+
+      <div class="drawer-content" id="drawerBody">
+        <!-- Konten dinamis di-render oleh js/app.js -->
+      </div>
+
+      <div class="drawer-footer">
+        <button class="btn-drawer-action btn-flyto" id="btnDrawerFly">
+          <span>🎯</span> Pusatkan Peta di Titik Asal
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- MODAL: PARADOKS SUPERMARKET (DISH ANALYZER) -->
+  <div class="modal-backdrop" id="modalDishAnalyzer">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><span>🍲</span> Paradoks Supermarket: Analisis Kuliner Dunia</h2>
+        <button class="modal-close-btn" onclick="closeModal('modalDishAnalyzer')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.825rem; color:#94a3b8; line-height:1.5;">
+          Di peradaban supermarket hari ini, kita terbiasa melihat semua bahan makanan dunia berkumpul di satu lorong belanja. Namun sebelum tahun <strong>1492 Masehi</strong>, makanan-makanan ikonik berikut <em>mustahil</em> disajikan seperti sekarang:
+        </p>
+
+        <!-- Tabs Pilihan Hidangan -->
+        <div class="dish-tabs" id="dishTabs"></div>
+
+        <!-- Detail Konten Hidangan -->
+        <div id="dishContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TENTANG & SEJARAH (VAVILOV & COLUMBIAN EXCHANGE) -->
+  <div class="modal-backdrop" id="modalAbout">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><span>📜</span> Tentang Proyek & Sejarah Domestikasi Manusia</h2>
+        <button class="modal-close-btn" onclick="closeModal('modalAbout')">✕</button>
+      </div>
+      <div class="modal-body" style="font-size:0.85rem; line-height:1.65; color:#cbd5e1;">
+        <div class="supermarket-contrast-box" style="margin-bottom:0.75rem;">
+          <div class="box-tag"><span>🌍</span> APA ITU "PERADABAN SUPERMARKET"?</div>
+          <p>
+            Supermarket modern adalah anomali terbesar dalam 300.000 tahun sejarah spesies manusia. Untuk pertama kalinya, seseorang dapat membeli kopi Etiopia, cokelat Amazon, pasta gandum Turki, saus tomat Andes, dan pisang Nusantara hanya dalam satu keranjang belanja di satu tempat.
+            <br><br>
+            Kenyamanan ini mengaburkan memori sejarah kita: bahwa selama 99.9% riwayat peradaban, setiap jengkal makanan terisolasi ribuan kilometer di habitat aslinya, dan manusia purba harus bertaruh nyawa menjelajahi samudra untuk mencicipi sebutir cengkeh atau sebutir lada.
+          </p>
+        </div>
+
+        <h3 style="font-family:var(--font-serif); color:var(--text-gold); margin:0.85rem 0 0.4rem;">
+          🔬 Teori Pusat Asal Nikolai Vavilov (Vavilov Centers)
+        </h3>
+        <p>
+          Pada tahun 1920-an hingga 1930-an, ahli botani dan genetika Uni Soviet terkemuka <strong>Nikolai Ivanovich Vavilov</strong> melakukan ekspedisi ke 64 negara di 5 benua untuk meneliti keanekaragaman tanaman liar. Ia menemukan bahwa tanaman budidaya tidak muncul merata di seluruh bumi, melainkan terkonsentrasi di 8 hingga 9 pusat geografis pegunungan tropis dan subtropis tertentu di mana keanekaragaman genetik liarnya paling melimpah.
+        </p>
+
+        <h3 style="font-family:var(--font-serif); color:var(--text-gold); margin:0.85rem 0 0.4rem;">
+          ⛵ Pertukaran Columbus 1492 (The Columbian Exchange)
+        </h3>
+        <p>
+          Tahun 1492 adalah titik balik ekologi terbesar di bumi. Kontak antara Dunia Baru (benua Amerika) dan Dunia Lama (Afro-Eurasia) memicu pertukaran biologis masif tanaman, hewan, dan mikroba. Tanpa peristiwa ini:
+        </p>
+        <ul style="padding-left:1.25rem; margin-top:0.4rem; display:flex; flex-direction:column; gap:0.25rem;">
+          <li>🇮🇹 Italia tidak akan mengenal tomat untuk pizza dan pasta.</li>
+          <li>🇮🇩 Indonesia dan Thailand tidak akan mengenal cabai untuk sambal dan rendang.</li>
+          <li>🇨🇭 Swiss dan Belgia tidak akan memiliki kakao untuk industri cokelat.</li>
+          <li>🇮🇪 Irlandia tidak akan mengenal kentang.</li>
+          <li>🇺🇸 Benua Amerika tidak akan memiliki sapi, kuda, kopi, gandum, atau ayam.</li>
+        </ul>
+
+        <div style="margin-top:1rem; padding-top:0.75rem; border-top:1px solid var(--border-subtle); font-size:0.75rem; color:#64748b; text-align:center;">
+          Dibuat sebagai media pembelajaran ensiklopedia sejarah peradaban, antropologi agrikultur, dan biogeografi dunia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CARA DEPLOY KE GITHUB PAGES -->
+  <div class="modal-backdrop" id="modalDeploy">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><span>🚀</span> Panduan Deploy ke GitHub Pages (Gratis & Online)</h2>
+        <button class="modal-close-btn" onclick="closeModal('modalDeploy')">✕</button>
+      </div>
+      <div class="modal-body" style="font-size:0.85rem; line-height:1.65; color:#cbd5e1;">
+        <p>
+          Website ini dibangun menggunakan <strong>Pure Static Web Architecture</strong> (HTML5, CSS3, JavaScript modular, dan Leaflet via CDN). Website ini 100% siap langsung di-hosting gratis di <strong>GitHub Pages</strong> tanpa memerlukan build step server (zero-build step)!
+        </p>
+
+        <div style="background:rgba(30,41,59,0.8); border:1px solid var(--border-gold); border-radius:var(--radius-md); padding:1rem; margin:0.75rem 0;">
+          <h4 style="color:var(--text-gold); font-size:0.9rem; margin-bottom:0.5rem;">
+            Langkah 1: Inisialisasi Git & Push ke Repository Anda
+          </h4>
+          <p style="font-size:0.8rem; margin-bottom:0.5rem;">Buka terminal dan jalankan perintah berikut:</p>
+          <pre style="background:#090d16; padding:0.75rem; border-radius:6px; font-size:0.78rem; overflow-x:auto; color:#38bdf8; font-family:monospace;">
+git init
+git add .
+git commit -m "feat: inisialisasi website peta komoditas peradaban purba"
+git branch -M main
+git remote add origin https://github.com/USERNAME-ANDA/NAMA-REPO.git
+git push -u origin main</pre>
+        </div>
+
+        <div style="background:rgba(30,41,59,0.8); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1rem; margin-bottom:0.75rem;">
+          <h4 style="color:#6ee7b7; font-size:0.9rem; margin-bottom:0.5rem;">
+            Langkah 2: Aktifkan GitHub Pages di Repository
+          </h4>
+          <ol style="padding-left:1.2rem; font-size:0.8rem; display:flex; flex-direction:column; gap:0.35rem;">
+            <li>Buka halaman repository Anda di <strong>GitHub.com</strong>.</li>
+            <li>Klik menu <strong>Settings</strong> (ikon roda gigi) di tab atas.</li>
+            <li>Di bilah sisi kiri, klik bagian <strong>Pages</strong>.</li>
+            <li>Pada bagian <em>Build and deployment &gt; Source</em>, pilih <strong>Deploy from a branch</strong>.</li>
+            <li>Pilih Branch: <strong>main</strong> dan folder <strong>/ (root)</strong>, lalu klik <strong>Save</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="fun-fact-card">
+          <div class="fact-title"><span>✨</span> Selesai!</div>
+          <p>
+            Dalam 1-2 menit, GitHub akan memberikan link website online publik Anda di: <br>
+            <code style="color:#fde68a;">https://USERNAME-ANDA.github.io/NAMA-REPO/</code>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Application Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
