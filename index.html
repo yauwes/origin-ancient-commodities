@@ -47,6 +47,10 @@
         <span>🍲</span> Paradoks Hidangan
       </button>
 
+      <button class="btn-nav" onclick="openModal('modalAllRoutes')" style="border-color:rgba(56,189,248,0.4); color:#38bdf8;">
+        <span>⏳</span> Rute & Migrasi (SM/M)
+      </button>
+
       <button class="btn-nav" id="btnStartTour">
         <span>🧭</span> Tur Sejarah
       </button>
@@ -60,15 +64,15 @@
       </button>
 
       <button class="btn-nav" onclick="openModal('modalDeploy')" style="border-color:var(--border-gold); color:var(--text-gold);">
-        <span>🚀</span> Deploy GitHub
+        <span>🚀</span> GitHub Pages
       </button>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
   <div class="app-container">
-    <!-- LEAFLET MAP CANVAS -->
-    <div id="map" class="map-theme-vintage"></div>
+    <!-- LEAFLET MAP CANVAS (PETA GRATIS OPENSTREETMAP) -->
+    <div id="map" class="map-theme-osm"></div>
 
     <!-- FLOATING MAP HUD & FILTERS (TOP-LEFT) -->
     <div class="map-floating-panel">
@@ -89,6 +93,9 @@
           <span><span>📜</span> Layer Sejarah Purba</span>
           <span class="hud-counter" id="commodityCounter">Memuat...</span>
         </div>
+        <div style="font-size:0.68rem; color:#4ade80; font-weight:600; margin-bottom:0.5rem; display:flex; align-items:center; gap:4px;">
+          <span>🟢</span> Peta: OpenStreetMap (100% Gratis - Tanpa API Key)
+        </div>
         <div class="hud-toggles">
           <label class="toggle-item">
             <span>Pusat Asal Vavilov (9 Wilayah)</span>
@@ -98,7 +105,7 @@
             </div>
           </label>
           <label class="toggle-item">
-            <span>Jalur Perdagangan & Rute Columbus</span>
+            <span>Jalur Perdagangan & Rute Columbus (Tahun SM/M)</span>
             <div class="toggle-switch">
               <input type="checkbox" id="toggleRoutes" checked>
               <span class="slider"></span>
@@ -108,11 +115,11 @@
       </div>
     </div>
 
-    <!-- THEME CONTROLS (BOTTOM-LEFT) -->
+    <!-- THEME CONTROLS (BOTTOM-LEFT - 100% GRATIS) -->
     <div class="map-theme-controls">
-      <button class="theme-btn active" data-theme="vintage">📜 Peta Kuno</button>
-      <button class="theme-btn" data-theme="dark">🌌 Obsidian</button>
-      <button class="theme-btn" data-theme="satellite">🌍 Satelit</button>
+      <button class="theme-btn active" data-theme="osm">🗺️ OSM Standar</button>
+      <button class="theme-btn" data-theme="hot">🌍 OSM Berwarna</button>
+      <button class="theme-btn" data-theme="satellite">🛰️ Satelit Alami</button>
     </div>
 
     <!-- GUIDED STORY TOUR PANEL (BOTTOM-RIGHT) -->
@@ -251,6 +258,35 @@ https://github.com/yauwes/origin-ancient-commodities</pre>
             </a>
           </p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DAFTAR SEMUA RUTE & MIGRASI KRONOLOGIS -->
+  <div class="modal-backdrop" id="modalAllRoutes">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><span>⏳</span> Rute Pergerakan & Migrasi Komoditas Dunia (SM & Masehi)</h2>
+        <button class="modal-close-btn" onclick="closeModal('modalAllRoutes')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.825rem; color:#94a3b8; line-height:1.5;">
+          Pergerakan komoditas pangan dan rempah membentuk arah peradaban manusia. Pilih salah satu rute di bawah ini untuk melihat tahapan perjalanan dan tahun penanggalannya secara kronologis:
+        </p>
+        <div id="allRoutesList" style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.5rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL LANGKAH RUTE KRONOLOGIS TERTENTU -->
+  <div class="modal-backdrop" id="modalRouteDetail">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="routeModalTitle"><span>⛵</span> Detail Rute Kronologis</h2>
+        <button class="modal-close-btn" onclick="closeModal('modalRouteDetail')">✕</button>
+      </div>
+      <div class="modal-body" id="routeModalContent">
+        <!-- Render dinamis oleh openRouteDetail di app.js -->
       </div>
     </div>
   </div>
